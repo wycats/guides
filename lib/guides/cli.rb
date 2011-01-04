@@ -13,18 +13,27 @@ module Guides
         FileUtils.mkdir_p("source")
         FileUtils.cp_r Dir["#{SOURCE_ROOT}/**/*"], "source"
 
-        File.open("meta.yml", "w") do |file|
+        File.open("guides.yml", "w") do |file|
           file.puts "title: #{name}"
         end
 
         FileUtils.mkdir_p("assets")
-        FileUtils.cp_r Dir["#{ASSETS_ROOT}/**/*"], "assets"
+        FileUtils.cp_r Dir["#{ASSETS_ROOT}/*"], "assets"
       end
     end
 
     desc "generate", "generate the guides output"
+    method_option "only", :type => :array
     def generate
-      FileUtils.mkdir_p
+      FileUtils.mkdir_p("#{Guides.root}/output")
+      require "guides/generator"
+
+      opts = options.dup
+
+      opts[:only] ||= []
+
+      generator = Guides::Generator.new(opts)
+      generator.generate
     end
 
     desc "preview", "preview the guides as you work"

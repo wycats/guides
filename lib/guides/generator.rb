@@ -66,7 +66,6 @@ module Guides
     def initialize(options)
       @options = options
 
-      initialize_dirs(output)
       @guides_dir = File.expand_path(Dir.pwd)
       @source_dir = File.join(@guides_dir, "source")
       @output_dir = File.join(@guides_dir, "output")
@@ -97,7 +96,11 @@ module Guides
       guides = Dir.entries(source_dir).grep(GUIDES_RE)
 
       guides.select do |guide|
-        options[:only].any? { |prefix| guide.start_with?(prefix) }
+        if @options[:only].empty?
+          true
+        else
+          @options[:only].any? { |prefix| guide.start_with?(prefix) }
+        end
       end
     end
 
@@ -121,7 +124,8 @@ module Guides
 
         if guide =~ /\.html\.erb$/
           # Generate the special pages like the home.
-          result = view.render(:layout => 'layout', :file => guide)
+          type = @edge ? "edge" : "normal"
+          result = view.render(:layout => 'layout', :file => guide, :locals => {:guide_type => type})
         else
           body = File.read(File.join(source_dir, guide))
           body = set_header_section(body, view)

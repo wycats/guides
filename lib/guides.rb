@@ -2,7 +2,7 @@ require "action_pack"
 require "redcloth"
 
 require "guides/textile_extensions"
-require "guides/generators"
+require "guides/generator"
 
 module Guides
   class << self
