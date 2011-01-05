@@ -1,0 +1,35 @@
+title: <%= title %>
+description: Enter your description here.
+  It can take up several lines. This description
+  will appear immediately below the main title in
+  the outputted guides.
+
+authors:
+  Documentation Team:
+    - name: Yehuda Katz
+      nick: wycats
+      description: Yehuda wrote the Rails guides gem.
+  Designers:
+    - name: Jason Zimdars
+      nick: jz
+      description: Jason Zimdars is an experienced creative director and web designer who has lead UI and UX design for numerous websites and web applications. You can see more of his design and writing at <a href="http://www.thinkcage.com/">Thinkcage.com</a> or follow him on <a href="http://twitter.com/JZ">Twitter</a>
+
+index:
+  Start Here:
+    - title: Getting Started
+      url: getting_started
+      text: Everything you need to know to install Rails and create your first application
+  Models:
+    - title: Rails Database Migrations
+      url: migrations
+      text: This guide covers how you can use Active Record migrations to alter your database in a structured and organized manner.
+    - title: Active Record Validations and Callbacks
+      url: validations
+      text: This guide covers how you can use Active Record validations and callbacks.
+  Controllers:
+    - title: Action Controller Overview
+      url: controllers
+      text: This guide covers how controllers work and how they fit into the request cycle in your application. It includes sessions, filters, and cookies, data streaming, and dealing with exceptions raised by a request, among other topics.
+    - title: Rails Routing from the Outside In
+      url: routing
+      text: This guide covers the user-facing features of Rails routing. If you want to understand how to use routing in your own Rails applications, start here.

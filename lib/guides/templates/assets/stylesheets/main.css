@@ -167,6 +167,7 @@ a, a:link, a:visited {
 	float: right;
 	margin-top: 1.5em;
 	font-size: 1.2857em;
+  width: 30em;
 }
 
 #header .nav li {margin: 0 0 0 0.5em;}
@@ -183,8 +184,7 @@ a, a:link, a:visited {
 }
 
 #header .nav .index a {
-	background: #980905 url(../images/nav_arrow.gif) no-repeat right top;
-	padding-right: 1em;
+	background: #980905 no-repeat right top;
 	position: relative;
 	z-index: 15;
 	padding-bottom: 0.125em;
