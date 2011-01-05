@@ -1,5 +1,31 @@
 module Guides
   module Helpers
+    def full_index
+
+    end
+
+    def clickable_index
+      guides = Guides.meta["index"]
+
+      total_guides = guides.inject(0) do |sum, (name, guides)|
+        sum + guides.size
+      end
+
+      lgroup, rgroup, counted_guides = {}, {}, 0
+
+      guides.each do |name, guides|
+        if counted_guides > (total_guides / 2.0)
+          rgroup[name] = guides
+        else
+          lgroup[name] = guides
+        end
+
+        counted_guides += guides.size
+      end
+
+      render "clickable_index", :lgroup => lgroup, :rgroup => rgroup
+    end
+
     def guide(name, url, options = {}, &block)
       link = content_tag(:a, :href => url) { name }
       result = content_tag(:dt, link)

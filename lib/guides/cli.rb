@@ -1,4 +1,5 @@
 require "thor"
+require "guides/new"
 
 module Guides
   class CLI < Thor
@@ -6,26 +7,16 @@ module Guides
     SOURCE_ROOT = File.expand_path("../source", __FILE__)
 
     desc "new NAME", "create a new directory of guides"
+    method_option "name", :type => :string
     def new(name)
-      FileUtils.mkdir_p(name)
-
-      Dir.chdir(name) do
-        FileUtils.mkdir_p("source")
-        FileUtils.cp_r Dir["#{SOURCE_ROOT}/**/*"], "source"
-
-        File.open("guides.yml", "w") do |file|
-          file.puts "title: #{name}"
-        end
-
-        FileUtils.mkdir_p("assets")
-        FileUtils.cp_r Dir["#{ASSETS_ROOT}/*"], "assets"
-      end
+      invoke "guides:new:copy", [name, options[:name] || name]
     end
 
     desc "generate", "generate the guides output"
     method_option "only", :type => :array
+    method_option "clean", :type => :boolean
     def generate
-      FileUtils.mkdir_p("#{Guides.root}/output")
+      FileUtils.rm_rf("#{Guides.root}/output") if options[:clean]
       require "guides/generator"
 
       opts = options.dup

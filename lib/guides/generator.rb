@@ -62,6 +62,7 @@ module Guides
     attr_reader :guides_dir, :source_dir, :output_dir, :edge, :warnings, :all
 
     GUIDES_RE = /\.(?:textile|html\.erb)$/
+    LOCAL_ASSETS = File.expand_path("../templates/assets", __FILE__)
 
     def initialize(options)
       @options = options
@@ -87,6 +88,7 @@ module Guides
   private
     def generate_guides
       guides_to_generate.each do |guide|
+        next if guide =~ /(_.*|layout)\.html\.erb$/
         output_file = guide.sub(GUIDES_RE, '.html')
         generate_guide(guide, output_file)
       end
@@ -105,6 +107,7 @@ module Guides
     end
 
     def copy_assets
+      FileUtils.cp_r(Dir["#{LOCAL_ASSETS}/*"], output_dir)
       FileUtils.cp_r(Dir["#{guides_dir}/assets/*"], output_dir)
     end
 
@@ -124,6 +127,7 @@ module Guides
 
         if guide =~ /\.html\.erb$/
           # Generate the special pages like the home.
+          view.render("sections")
           type = @edge ? "edge" : "normal"
           result = view.render(:layout => 'layout', :file => guide, :locals => {:guide_type => type})
         else
