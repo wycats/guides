@@ -35,7 +35,7 @@ module Guides
     end
 
     def author(name, nick, image = 'credits_pic_blank.gif', &block)
-      image = "images/#{image}"
+      image = "images/#{image}" unless image =~ /^http/
 
       result = content_tag(:img, nil, :src => image, :class => 'left pic', :alt => name)
       result << content_tag(:h3, name)
