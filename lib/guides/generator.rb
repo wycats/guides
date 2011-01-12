@@ -192,8 +192,8 @@ module Guides
 
     def textile(body, lite_mode=false)
       # If the issue with notextile is fixed just remove the wrapper.
-      with_workaround_for_notextile(body) do |body|
-        t = RedCloth.new(body)
+      with_workaround_for_notextile(body) do |new_body|
+        t = RedCloth.new(new_body)
         t.hard_breaks = false
         t.lite_mode = lite_mode
         t.to_html(:notestuff, :plusplus, :code, :tip)

@@ -6,6 +6,10 @@ module Guides
     ASSETS_ROOT = File.expand_path("../assets", __FILE__)
     SOURCE_ROOT = File.expand_path("../source", __FILE__)
 
+    def self.basename
+      "guides"
+    end
+
     desc "new NAME", "create a new directory of guides"
     method_option "name", :type => :string
     def new(name)

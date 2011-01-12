@@ -1,19 +1,15 @@
 module Guides
   module Helpers
-    def full_index
-
-    end
-
     def clickable_index
-      guides = Guides.meta["index"]
+      all_guides = Guides.meta["index"]
 
-      total_guides = guides.inject(0) do |sum, (name, guides)|
+      total_guides = all_guides.inject(0) do |sum, (name, guides)|
         sum + guides.size
       end
 
       lgroup, rgroup, counted_guides = {}, {}, 0
 
-      guides.each do |name, guides|
+      all_guides.each do |name, guides|
         if counted_guides > (total_guides / 2.0)
           rgroup[name] = guides
         else
@@ -53,3 +49,4 @@ module Guides
     end
   end
 end
+

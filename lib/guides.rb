@@ -5,6 +5,14 @@ require "guides/textile_extensions"
 require "guides/generator"
 
 module Guides
+  class Error < StandardError
+    def self.status_code(code = nil)
+      define_method(:status_code) { code }
+    end
+  end
+
+  class FormatError < Error; status_code(2) ; end
+
   class << self
     def root
       # TODO: Search for guides.yml
