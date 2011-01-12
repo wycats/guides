@@ -35,5 +35,19 @@ module Guides
     def preview
 
     end
+
+    desc "update", "when running from the pkg, updates the gem"
+    def update
+
+    end
+
+    no_tasks do
+      def invoke_task(*)
+        super
+      rescue Guides::Error => e
+        shell.say e.message, :red
+        exit e.status_code
+      end
+    end
   end
 end
