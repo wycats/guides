@@ -1,4 +1,4 @@
-module RedCloth
+class RedCloth::TextileDoc
   def notestuff(body)
     body.gsub!(/^(IMPORTANT|CAUTION|WARNING|NOTE|INFO)[.:](.*)$/) do |m|
       css_class = $1.downcase
