@@ -24,7 +24,7 @@ dl dt { font-weight: bold; }
 dd { margin-left: 1.5em;}
 
 pre,code { margin: 1.5em 0; overflow: auto; color: #222;}
-pre,code,tt {
+pre,code,tt,ins {
     font-size: 1em;
     font-family: "Anonymous Pro", "Inconsolata", "Menlo", "Consolas", "Bitstream Vera Sans Mono", "Courier New", monospace;
     line-height: 1.5;
@@ -384,7 +384,7 @@ div.code_container {
 	margin: 0.25em 0 1.5em 0;
 }
 
-.note tt, .info tt {border:none; background: none; padding: 0;}
+.note tt, .note ins, .info tt, .note ins {border:none; background: none; padding: 0;}
 
 #mainCol ul li {
 	list-style:none;
