@@ -148,8 +148,15 @@ module Guides
       new_body = body.gsub(/(.*?)endprologue\./m, '').strip
       header = $1
 
-      header =~ /h2\.(.*)/
-      page_title = "#{@meta["title"]}: #{$1.strip}"
+      unless header
+        raise FormatError, "A prologue is required. Use 'endprologue.' to separate the prologue from the main body."
+      end
+
+      if header =~ /h2\.(.*)/
+        page_title = "#{@meta["title"]}: #{$1.strip}"
+      else
+        raise FormatError, "A title is required. Use the 'h2.' declaration to denote the title."
+      end
 
       header = textile(header)
 
