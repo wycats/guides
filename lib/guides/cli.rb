@@ -1,6 +1,7 @@
 require "thor"
 require "guides/new"
 require "guides/preview"
+require "guides/version"
 
 module Guides
   class CLI < Thor
@@ -30,6 +31,14 @@ module Guides
 
       generator = Guides::Generator.new(opts)
       generator.generate
+    end
+
+    map "-v"        => "version"
+    map "--version" => "version"
+
+    desc "version", "print the current version"
+    def version
+      shell.say "Guides #{Guides::VERSION}", :green
     end
 
     desc "preview", "preview the guides as you work"
