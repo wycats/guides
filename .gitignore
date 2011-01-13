@@ -2,4 +2,5 @@ Gemfile.lock
 tmp
 devbin
 bundle
+Guides
 *.pmdoc
