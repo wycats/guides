@@ -22,6 +22,7 @@ Gem::Specification.new do |s|
   s.add_dependency "rack", "~> 1.2.1"
   s.add_dependency "RedCloth", "~> 4.1.1"
   s.add_dependency "thor", "~> 0.14.6"
+  s.add_dependency "thin", "~> 1.2.7"
 
   s.files              = `git ls-files`.split("\n")
   s.test_files         = `git ls-files -- {test,spec,features}/*`.split("\n")

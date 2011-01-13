@@ -1,5 +1,6 @@
 require "thor"
 require "guides/new"
+require "guides/preview"
 
 module Guides
   class CLI < Thor
@@ -16,10 +17,10 @@ module Guides
       invoke "guides:new:copy", [name, options[:name] || name]
     end
 
-    desc "generate", "generate the guides output"
+    desc "build", "build the guides output"
     method_option "only", :type => :array
     method_option "clean", :type => :boolean
-    def generate
+    def build
       FileUtils.rm_rf("#{Guides.root}/output") if options[:clean]
       require "guides/generator"
 
@@ -33,7 +34,7 @@ module Guides
 
     desc "preview", "preview the guides as you work"
     def preview
-
+      Preview.start
     end
 
     desc "update", "when running from the pkg, updates the gem"

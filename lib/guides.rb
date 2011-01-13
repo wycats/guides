@@ -19,7 +19,9 @@ module Guides
       File.expand_path(Dir.pwd)
     end
 
-    def meta
+    def meta(reload = false)
+      @meta = nil if reload
+
       @meta ||= begin
         if File.exist?("#{root}/guides.yml")
           YAML.load_file("#{root}/guides.yml")

@@ -1,16 +1,11 @@
 require "spec_helper"
 
-describe "guides generate" do
+describe "guides build" do
   before(:all) do
-    FileUtils.rm_rf(tmp.join("sample"))
-    guides "new", "sample"
-    wait
-    Dir.chdir(tmp.join("sample"))
-    guides "generate"
-  end
-
-  after(:all) do
-    Dir.chdir(tmp)
+    reset_tmp
+    guides "new", "sample" and wait
+    Dir.chdir tmp.join("sample")
+    guides "build" and wait
   end
 
   it "generates the app" do
@@ -29,12 +24,12 @@ describe "guides generate" do
   end
 
   it "does nothing if run twice in a row" do
-    guides "generate"
+    guides "build"
     out.should be_blank
   end
 
   it "re-runs if run with --clean" do
-    guides "generate", "--clean"
+    guides "build", "--clean"
     out.should =~ /Generating contribute.html.*Generating credits.html.*Generating index.html/m
   end
 
