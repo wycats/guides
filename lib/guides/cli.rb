@@ -46,10 +46,10 @@ module Guides
       Preview.start
     end
 
-    desc "update", "when running from the pkg, updates the gem"
-    def update
-
-    end
+    #desc "update", "when running from the pkg, updates the gem"
+    #def update
+      #Update.start
+    #end
 
     no_tasks do
       def invoke_task(*)

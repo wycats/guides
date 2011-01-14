@@ -35,21 +35,25 @@ module SpecHelpers
       Guides::CLI.start(argv)
     end
 
-    if argv.first == 'preview'
-      wait_for_preview_server
-    end
 
     @stdout_child.close
     @stdin_child.close
     @stderr_child.close
+
+    if argv.first == 'preview'
+      wait_for_preview_server
+    end
+
     @pid
   end
 
   def wait_for_preview_server
     s = TCPSocket.new('0.0.0.0', 9292)
-  rescue Errno::ECONNREFUSED
+  rescue Errno::ECONNREFUSED, Errno::ECONNRESET
     sleep 0.2
     retry
+  rescue Exception => e
+    puts [e.class, e.message]
   ensure
     s.close
   end

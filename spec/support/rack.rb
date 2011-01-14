@@ -64,7 +64,7 @@ module SpecHelpers
     if host == :preview
       ip = host = 'http://localhost:9292'
     else
-      ip = ENV['STROBEAPP_URL']
+      ip = ENV['GUIDES_URL']
     end
 
     headers['Host'] = host

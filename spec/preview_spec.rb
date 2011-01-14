@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe "guides generate" do
+describe "guides preview" do
   before(:all) do
     reset_tmp
     guides "new", "sample" and wait
@@ -14,8 +14,11 @@ describe "guides generate" do
 
   before(:each) do
     host! :preview
-    launch_test_server
     guides "preview"
+  end
+
+  after(:each) do
+    kill!
   end
 
   it "downloads the index at /" do

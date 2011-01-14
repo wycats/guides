@@ -2,14 +2,22 @@ require "rack"
 
 module Guides
   class App
-    LOCAL_ASSETS     = File.expand_path("../templates/assets", __FILE__)
-    SOURCE_ASSETS    = File.join(Guides.root, "assets")
-    SOURCE_TEMPLATES = File.join(Guides.root, "source")
-
     def initialize
-      @local  = Rack::File.new(LOCAL_ASSETS)
-      @source = Rack::File.new(SOURCE_ASSETS)
+      @local  = Rack::File.new(local_assets)
+      @source = Rack::File.new(source_assets)
       @output = Rack::File.new(File.join(Guides.root, "output"))
+    end
+
+    def local_assets
+      File.expand_path("../templates/assets", __FILE__)
+    end
+
+    def source_assets
+      File.join(Guides.root, "assets")
+    end
+
+    def source_templates
+      File.join(Guides.root, "source")
     end
 
     def call(env)
@@ -19,13 +27,13 @@ module Guides
       when "/"
         env["PATH_INFO"] = "/index.html"
         return call(env)
-      when /(.*).html/
+      when /\/(.*).html/
         name = $1
         generator = Guides::Generator.new({})
-        source_file = Dir["#{SOURCE_TEMPLATES}/#{name}.{html.erb,textile}"].first
+        source_file = Dir["#{source_templates}/#{name}.{html.erb,textile}"].first
 
         unless source_file
-          return [404, {"Content-Type" => "text/html"}, ["#{name} not found"]]
+          return [404, {"Content-Type" => "text/html"}, ["#{name} not found in #{source_templates}: #{Guides.root}"]]
         end
 
         generator.send(:generate_guide, File.basename(source_file), "#{name}.html")
