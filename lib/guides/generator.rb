@@ -178,7 +178,7 @@ module Guides
     end
 
     def set_header_section(body, view)
-      new_body = body.gsub(/(.*?)endprologue\./m, '').strip
+      new_body = body.sub(/(.*?)endprologue\./m, '').strip
       header = $1
 
       unless header
