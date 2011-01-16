@@ -246,7 +246,7 @@ module Guides
     def with_workaround_for_notextile(body)
       code_blocks = []
 
-      body.gsub!(%r{<(yaml|shell|ruby|erb|html|sql|plain|javascript)>(.*?)</\1>}m) do |m|
+      body.gsub!(%r{<(yaml|shell|ruby|erb|html|sql|plain|javascript|css)>(.*?)</\1>}m) do |m|
         brush = case $1
           when 'ruby', 'sql', 'javascript', 'plain'
             $1
