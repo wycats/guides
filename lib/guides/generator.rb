@@ -248,7 +248,7 @@ module Guides
 
       body.gsub!(%r{<(yaml|shell|ruby|erb|html|sql|plain|javascript|css)>(.*?)</\1>}m) do |m|
         brush = case $1
-          when 'ruby', 'sql', 'javascript', 'plain'
+          when 'ruby', 'sql', 'javascript', 'css', 'plain'
             $1
           when 'erb'
             'ruby; html-script: true'
