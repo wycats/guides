@@ -1,6 +1,9 @@
 Gemfile.lock
 tmp
+vendor/cache
 devbin
 bundle
 Guides
 *.pmdoc
+*.gem
+*.pkg
