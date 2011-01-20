@@ -47,6 +47,19 @@ module Guides
       c = capture(&block)
       content_tag(:code, c)
     end
+
+    def guide_link(guide)
+      # Might be able to use build in view_paths methods but I couldn't figure them out - PW
+      exists = view_paths.any? do |p|
+        Guides::Generator::EXTENSIONS.any?{|e| File.exist? "#{p}/#{guide["url"]}.#{e}" }
+      end
+
+      if exists
+        link_to guide["title"], "#{guide["url"]}.html"
+      else
+        guide["title"]
+      end
+    end
   end
 end
 

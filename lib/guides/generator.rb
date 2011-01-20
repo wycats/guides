@@ -61,7 +61,8 @@ module Guides
   class Generator
     attr_reader :guides_dir, :source_dir, :output_dir, :edge, :warnings, :all
 
-    GUIDES_RE = /\.(?:textile|html\.erb)$/
+    EXTENSIONS = %w(textile html.erb)
+    GUIDES_RE = /\.(?:#{EXTENSIONS.map{|e| Regexp.escape(e)}.join('|')})$/
     LOCAL_ASSETS = File.expand_path("../templates/assets", __FILE__)
 
     def initialize(options)
