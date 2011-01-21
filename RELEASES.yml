@@ -1,5 +1,0 @@
-versions:
-  "0.6.0":
-    pkg: "https://github.com/downloads/wycats/guides/Guides-0.6.0.pkg"
-  "0.6.1":
-    patch: true
