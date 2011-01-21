@@ -39,7 +39,7 @@ file "Guides/local/guides/lib"
 end
 
 file "Guides/bin/guides" => "bin/guides" do
-  guides = File.read("bin/guides").sub(/\A#.*/, "#!/usr/local/ruby1.9test/bin/ruby -I /usr/local/guides/bundle -r bundler/setup")
+  guides = File.read("bin/guides").sub(/\A#.*/, "#!/usr/local/ruby1.9/bin/ruby -I /usr/local/guides/bundle -r bundler/setup")
 
   sh "mkdir -p Guides/bin"
   File.open("Guides/bin/guides", "w") { |file| file.puts guides }
