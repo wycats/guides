@@ -21,6 +21,7 @@ Gem::Specification.new do |s|
   s.add_dependency "activesupport", "~> 3.0.0"
   s.add_dependency "rack", "~> 1.2.1"
   s.add_dependency "RedCloth", "~> 4.1.1"
+  s.add_dependency "maruku", "~> 0.6.0"
   s.add_dependency "thor", "~> 0.14.6"
   s.add_dependency "thin", "~> 1.2.7"
 

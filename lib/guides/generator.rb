@@ -61,7 +61,7 @@ module Guides
   class Generator
     attr_reader :guides_dir, :source_dir, :output_dir, :edge, :warnings, :all
 
-    EXTENSIONS = %w(textile html.erb)
+    EXTENSIONS = %w(textile md html.erb)
     GUIDES_RE = /\.(?:#{EXTENSIONS.map{|e| Regexp.escape(e)}.join('|')})$/
     LOCAL_ASSETS = File.expand_path("../templates/assets", __FILE__)
 
@@ -138,11 +138,15 @@ module Guides
           type = @edge ? "edge" : "normal"
           result = view.render(:layout => 'layout', :file => guide, :locals => {:guide_type => type})
         else
-          body = File.read(File.join(source_dir, guide))
-          body = set_header_section(body, view)
-          body = set_index(body, view)
+          processor = (guide =~ /\.md$/) ? :markdown : :textile
 
-          result = view.render(:layout => 'layout', :text => textile(body))
+          body = File.read(File.join(source_dir, guide))
+          body = set_header_section(body, view, processor)
+          body = set_index(body, view, processor)
+
+          text = (processor == :markdown) ? markdown(body) : textile(body)
+
+          result = view.render(:layout => 'layout', :text => text)
 
           warn_about_broken_links(result) if @warnings
         end
@@ -151,7 +155,7 @@ module Guides
       end
     end
 
-    def set_header_section(body, view)
+    def set_header_section(body, view, processor)
       new_body = body.sub(/(.*?)endprologue\./m, '').strip
       header = $1
 
@@ -159,20 +163,28 @@ module Guides
         raise FormatError, "A prologue is required. Use 'endprologue.' to separate the prologue from the main body."
       end
 
-      if header =~ /h2\.(.*)/
-        page_title = "#{@meta["title"]}: #{$1.strip}"
+      if processor == :markdown
+        if header =~ /^(.+)\r?\n-+$/ || header =~ /^## (.+)$/
+          page_title = "#{@meta["title"]}: #{$1.strip}"
+        else
+          raise FormatError, "A title is required. Underline the title with '------' or prefix it with '##'"
+        end
       else
-        raise FormatError, "A title is required. Use the 'h2.' declaration to denote the title."
+        if header =~ /h2\.(.*)/
+          page_title = "#{@meta["title"]}: #{$1.strip}"
+        else
+          raise FormatError, "A title is required. Use the 'h2.' declaration to denote the title."
+        end
       end
 
-      header = textile(header)
+      header = (processor == :markdown) ? markdown(header) : textile(header)
 
       view.content_for(:page_title) { page_title.html_safe }
       view.content_for(:header_section) { header.html_safe }
       new_body
     end
 
-    def set_index(body, view)
+    def set_index(body, view, processor)
       index = <<-INDEX
       <div id="subCol">
         <h3 class="chapter"><img src="images/chapters_icon.gif" alt="" />Chapters</h3>
@@ -184,11 +196,16 @@ module Guides
 
       # Set index for 2 levels
       i.level_hash.each do |key, value|
-        link = view.content_tag(:a, :href => key[:id]) { textile(key[:title], true).html_safe }
+        link = view.content_tag(:a, :href => key[:id]) do
+          (processor == :markdown ? markdown(key[:title]) : textile(key[:title], true)).html_safe
+        end
 
         children = value.keys.map do |k|
-          view.content_tag(:li,
-            view.content_tag(:a, :href => k[:id]) { textile(k[:title], true).html_safe })
+          view.content_tag :li do
+            view.content_tag(:a, :href => k[:id]) do
+              (processor == :markdown ? markdown(k[:title]) : textile(k[:title], true)).html_safe
+            end
+          end
         end
 
         children_ul = children.empty? ? "" : view.content_tag(:ul, children.join(" ").html_safe)
@@ -212,6 +229,10 @@ module Guides
         t.lite_mode = lite_mode
         t.to_html(:notestuff, :plusplus)
       end
+    end
+
+    def markdown(body)
+      Maruku.new(body).to_html
     end
 
     # For some reason the notextile tag does not always turn off textile. See

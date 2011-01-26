@@ -1,7 +1,9 @@
 require "action_pack"
 require "redcloth"
+require "maruku"
 
 require "guides/textile_extensions"
+require "guides/markdown_extensions"
 require "guides/generator"
 
 module Guides
