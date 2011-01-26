@@ -86,33 +86,6 @@ module Guides
       copy_assets
     end
 
-    def generate_guide(guide, output_file)
-      return unless generate?(guide, output_file)
-
-      puts "Generating #{output_file}"
-      File.open(File.join(output_dir, output_file), 'w') do |f|
-        view = ActionView::Base.new(source_dir, :edge => edge)
-        view.extend(Helpers)
-
-        if guide =~ /\.html\.erb$/
-          # Generate the special pages like the home.
-          view.render("sections")
-          type = @edge ? "edge" : "normal"
-          result = view.render(:layout => 'layout', :file => guide, :locals => {:guide_type => type})
-        else
-          body = File.read(File.join(source_dir, guide))
-          body = set_header_section(body, view)
-          body = set_index(body, view)
-
-          result = view.render(:layout => 'layout', :text => textile(body))
-
-          warn_about_broken_links(result) if @warnings
-        end
-
-        f.write result
-      end
-    end
-
   private
     def generate_guides
       guides_to_generate.each do |guide|
