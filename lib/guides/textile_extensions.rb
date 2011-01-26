@@ -1,20 +1,12 @@
 class RedCloth::TextileDoc
   def notestuff(body)
-    body.gsub!(/^(IMPORTANT|CAUTION|WARNING|NOTE|INFO)[.:](.*)$/) do |m|
+    body.gsub!(/^(IMPORTANT|CAUTION|WARNING|NOTE|INFO|TIP)[.:](.*?)(?=(\n{2}|[\r\n]{2}|\z))/m) do |m|
       css_class = $1.downcase
       css_class = 'warning' if ['caution', 'important'].include?(css_class)
+      css_class = 'info' if css_class == 'tip'
 
       result = "<div class='#{css_class}'><p>"
       result << $2.strip
-      result << '</p></div>'
-      result
-    end
-  end
-
-  def tip(body)
-    body.gsub!(/^TIP[.:](.*)$/) do |m|
-      result = "<div class='info'><p>"
-      result << $1.strip
       result << '</p></div>'
       result
     end
