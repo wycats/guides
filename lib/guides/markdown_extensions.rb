@@ -1,6 +1,6 @@
 # Hack for buggy method that thinks NOTE is an email header
 class MaRuKu::MDDocument
-  def parse_email_headers(s) do
+  def parse_email_headers(s)
     { :data => s}
   end
 end
