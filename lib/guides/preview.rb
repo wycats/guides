@@ -27,7 +27,7 @@ module Guides
       when "/"
         env["PATH_INFO"] = "/index.html"
         return call(env)
-      when /\/(.*).html/
+      when /\/(.*)\.html$/
         name = $1
         generator = Guides::Generator.new({})
         source_file = Dir["#{source_templates}/#{name}.{html.erb,textile}"].first
