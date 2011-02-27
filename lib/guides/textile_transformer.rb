@@ -14,14 +14,14 @@ module Guides
       @pending_textile = ""
 
       until @string.empty?
-        match = scan_until /(\+(.*?)\+|<(#{LANGUAGES.keys.join("|")})>|\z)/m
+        match = scan_until /(\+(.*?)\+|<(#{LANGUAGES.keys.join("|")})(?: filename=["']([^"']*)["'])?>|\z)/m
 
         @pending_textile << match.pre_match
 
         case match[1]
         when /^[^\+]/
           flush_textile
-          generate_brushes match[3], LANGUAGES[match[3]]
+          generate_brushes match[3], LANGUAGES[match[3]], match[4]
         when ""
         else
           @pending_textile << "<notextile><tt>#{CGI.escapeHTML(match[2])}</tt></notextile>" if match[2]
@@ -33,9 +33,11 @@ module Guides
       @output
     end
 
-    def generate_brushes(tag, replace)
+    def generate_brushes(tag, replace, filename)
       match = scan_until %r{</#{tag}>}
-      @output << %{<div class="code_container">\n<pre class="brush: #{replace}; gutter: false; toolbar: false">\n} <<
+      @output << %{<div class="code_container">\n}
+      @output << %{<div class="filename">#{filename}</div>\n} if filename
+      @output << %{<pre class="brush: #{replace}; gutter: false; toolbar: false">\n} <<
                  CGI.escapeHTML(match.pre_match) << %{</pre></div>}
     end
 

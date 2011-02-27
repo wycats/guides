@@ -370,6 +370,17 @@ div.code_container {
 	padding: 0.25em 1em 0.5em 48px;
 }
 
+div.code_container div.filename {
+	font-family: monospace;
+	color: #666;
+	border-bottom: 1px solid #ccc;
+	border-top: 1px solid #ccc;
+	margin: 4px -14px 0 -13px;
+	padding-bottom: 4px;
+	background-color: #ddd;
+	padding-left: 10px;
+}
+
 .note {
 	background: #fff9d8 url(../images/tab_note.gif) no-repeat left top;
 	border: none;

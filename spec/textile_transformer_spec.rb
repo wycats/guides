@@ -20,6 +20,13 @@ describe "Transformer" do
                      %{SC.Object.extend({\n  foo: function() {\n    return foo &lt; bar &amp;&amp; baz\n  }\n})</pre></div>\n}
   end
 
+  it "handles <javascript> with a filename" do
+    result = @transformer.transform("h1. foo\n\nHi there.\n\n<javascript filename='fake.js'>SC.Object.extend({\n  foo: function() {\n    return foo < bar && baz\n  }\n})</javascript>")
+    result.should == %{<h1>foo</h1>\n<p>Hi there.</p>\n<div class="code_container">\n<div class="filename">fake.js</div>\n} +
+                     %{<pre class="brush: javascript; gutter: false; toolbar: false">\n} +
+                     %{SC.Object.extend({\n  foo: function() {\n    return foo &lt; bar &amp;&amp; baz\n  }\n})</pre></div>\n}
+  end
+
   it "handles <ruby>" do
     result = @transformer.transform("h1. foo\n\nHi there.\n\n<ruby>class Foo < Bar\n  def foo\n    bar && baz\n  end\nend</ruby>")
     result.should == %{<h1>foo</h1>\n<p>Hi there.</p>\n<div class="code_container">\n<pre class="brush: ruby; gutter: false; toolbar: false">\n} +
