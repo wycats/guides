@@ -78,7 +78,12 @@ module SpecHelpers
     path = uri.path
     path = "#{path}?#{uri.query}" if uri.query
 
-    @response = conn.run_request(method, path, args.first, {})
+    begin
+      @response = conn.run_request(method, path, args.first, {})
+    rescue StandardError
+      sleep 0.5
+      retry
+    end
   end
 
   def should_respond_with(status, body = nil, hdrs = {})

@@ -5,6 +5,7 @@ require "maruku"
 require "guides/textile_extensions"
 require "guides/markdown_extensions"
 require "guides/generator"
+require "guides/transformer"
 
 module Guides
   class Error < StandardError
