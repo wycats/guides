@@ -44,4 +44,10 @@ describe "Transformer" do
     result.should == %{<h1>foo</h1>\n<p>Hi there.</p>\n<div class="code_container">\n<pre class="brush: plain; gutter: false; toolbar: false">\n} +
       %{$ foo &amp;&amp; bar</pre></div>\n}
   end
+
+  it "handles NOTE:" do
+    result = @transformer.transform("h1. foo\n\nHi there.\n\nNOTE: Some note\nmore of *the same* note\n\nAnother paragraph")
+    result.should == %{<h1>foo</h1>\n<p>Hi there.</p>\n<div class="note"><p>Some note more of <strong>the same</strong> note</p></div>\n} +
+      %{<p>Another paragraph</p>\n}
+  end
 end
