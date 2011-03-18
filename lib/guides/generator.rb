@@ -195,11 +195,7 @@ module Guides
     end
 
     def set_index(body, view, processor)
-      index = <<-INDEX
-      <div id="subCol">
-        <h3 class="chapter"><img src="images/chapters_icon.gif" alt="" />Chapters</h3>
-        <ol class="chapters">
-      INDEX
+      index = ""
 
       i = Indexer.new(body, warnings, @production)
       i.index
@@ -222,9 +218,6 @@ module Guides
 
         index << view.content_tag(:li, link.html_safe + children_ul.html_safe)
       end
-
-      index << '</ol>'
-      index << '</div>'
 
       view.content_for(:index_section) { index.html_safe }
 
