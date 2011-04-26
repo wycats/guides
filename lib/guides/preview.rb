@@ -31,7 +31,8 @@ module Guides
       when /\/(.*)\.html$/
         name = $1
         generator = Guides::Generator.new({ :production => @production })
-        source_file = Dir["#{source_templates}/#{name}.{html.erb,textile}"].first
+
+        source_file = Dir["#{source_templates}/#{name}.{#{Guides::Generator::EXTENSIONS.join(",")}}"].first
 
         unless source_file
           return [404, {"Content-Type" => "text/html"}, ["#{name} not found in #{source_templates}: #{Guides.root}"]]

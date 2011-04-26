@@ -43,6 +43,11 @@ describe "guides preview" do
       should_respond_with 200, /<!DOCTYPE html PUBLIC.*>.*<h2>Article One<\/h2>/m
     end
 
+    it "downloads a markdown page" do
+      get "/article_two.html"
+      should_respond_with 200, /<!DOCTYPE html PUBLIC.*>.*<h2[^>]*>Article Two<\/h2>/m
+    end
+
     it "downloads an under-construction page" do
       get "/article_four.html"
       should_respond_with 200, /<!DOCTYPE html PUBLIC.*>.*<h2>Article Four<\/h2>/m

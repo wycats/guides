@@ -57,6 +57,11 @@ describe "guides build" do
       article_one.should =~ /<h2>Article One<\/h2>/
     end
 
+    it "creates markdown article" do
+      article_two = File.read("output/article_two.html")
+      article_two.should =~ /<h2[^>]*>Article Two<\/h2>/
+    end
+
     it "does not create under-construction article" do
       File.exist?("output/article_four.html").should be_false
     end
