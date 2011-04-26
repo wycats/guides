@@ -1,0 +1,10 @@
+h2. Article Three
+
+This is where we have the stuff for the third article.
+
+endprologue.
+
+
+h3. What is Article Three?
+
+Article Three is the third article.

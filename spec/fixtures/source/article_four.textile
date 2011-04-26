@@ -1,0 +1,10 @@
+h2. Article Four
+
+This is where we have the stuff for the fourth article.
+
+endprologue.
+
+
+h3. What is Article Four?
+
+Article Four is the fourth article.

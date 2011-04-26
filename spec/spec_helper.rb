@@ -16,6 +16,10 @@ RSpec.configure do |config|
     Dir.chdir(tmp)
   end
 
+  def fixtures
+    @fixtures ||= Pathname.new(File.expand_path("../fixtures", __FILE__))
+  end
+
   config.before(:suite) do
     reset_tmp
   end

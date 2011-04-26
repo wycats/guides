@@ -1,8 +1,6 @@
 module Guides
   module Helpers
     def clickable_index
-      all_guides = Guides.meta["index"]
-
       total_guides = all_guides.inject(0) do |sum, (name, guides)|
         sum + guides.size
       end
@@ -20,6 +18,18 @@ module Guides
       end
 
       render "clickable_index", :lgroup => lgroup, :rgroup => rgroup
+    end
+
+    def is_production?
+      assigns[:production]
+    end
+
+    def all_guides
+      Guides.meta["index"].inject({}) do |ret, (section, items)|
+        items = items.reject{|item| item['construction'] } if is_production?
+        ret[section] = items unless items.empty?
+        ret
+      end
     end
 
     def guide(name, url, options = {}, &block)

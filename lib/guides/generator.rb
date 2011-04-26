@@ -77,6 +77,7 @@ module Guides
       @edge     = options[:edge]
       @warnings = options[:warnings]
       @all      = options[:all]
+      @production = options[:production]
 
       @meta = Guides.meta
     end
@@ -84,6 +85,13 @@ module Guides
     def generate
       generate_guides
       copy_assets
+    end
+
+    def construction?(source_file)
+      # TODO: Clean this up a bit, it is messy
+      url = source_file.sub(/\.(#{EXTENSIONS.map{|e| Regexp.escape(e) }.join('|')})$/, '')
+      guide = @meta['index'].values.flatten.select{|g| g['url'] == url }.first rescue nil
+      guide && guide['construction']
     end
 
   private
@@ -116,6 +124,8 @@ module Guides
       fin  = File.join(source_dir, source_file)
       fout = File.join(output_dir, output_file)
 
+      return false if @production && construction?(source_file)
+
       if File.exists?(fout) && File.mtime(fout) < File.mtime(File.join(Guides.root, "guides.yml"))
         Guides.meta(true)
         return true
@@ -129,7 +139,7 @@ module Guides
 
       puts "Generating #{output_file}"
       File.open(File.join(output_dir, output_file), 'w') do |f|
-        view = ActionView::Base.new(source_dir, :edge => edge)
+        view = ActionView::Base.new(source_dir, :edge => edge, :production => @production)
         view.extend(Helpers)
 
         if guide =~ /\.html\.erb$/

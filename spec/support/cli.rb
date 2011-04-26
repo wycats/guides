@@ -47,6 +47,11 @@ module SpecHelpers
     @pid
   end
 
+  def copy_fixtures
+    FileUtils.cp fixtures.join("guides.yml"), tmp.join("sample")
+    FileUtils.cp_r fixtures.join("source"), tmp.join("sample")
+  end
+
   def wait_for_preview_server
     s = TCPSocket.new('0.0.0.0', 9292)
   rescue Errno::ECONNREFUSED, Errno::ECONNRESET

@@ -21,6 +21,7 @@ module Guides
     desc "build", "build the guides output"
     method_option "only", :type => :array
     method_option "clean", :type => :boolean
+    method_option "production", :type => :boolean, :default => true, :banner => "use production mode", :aliases => "-p"
     def build
       FileUtils.rm_rf("#{Guides.root}/output") if options[:clean]
       require "guides/generator"
@@ -42,8 +43,9 @@ module Guides
     end
 
     desc "preview", "preview the guides as you work"
+    method_option "production", :type => :boolean, :banner => "use production mode", :aliases => "-p"
     def preview
-      Preview.start
+      Preview.start(options)
     end
 
     #desc "update", "when running from the pkg, updates the gem"
