@@ -80,8 +80,9 @@ module SpecHelpers
 
     begin
       @response = conn.run_request(method, path, args.first, {})
-    rescue StandardError
+    rescue StandardError => e
       sleep 0.5
+      raise e if (tries = (tries || 0) + 1) > 5
       retry
     end
   end

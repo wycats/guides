@@ -56,6 +56,7 @@ module SpecHelpers
     s = TCPSocket.new('0.0.0.0', 9292)
   rescue Errno::ECONNREFUSED, Errno::ECONNRESET
     sleep 0.2
+    raise "server not found" if (tries = (tries || 0) + 1) > 5
     retry
   rescue Exception => e
     puts [e.class, e.message]
