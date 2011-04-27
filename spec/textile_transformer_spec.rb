@@ -72,6 +72,10 @@ describe "Transformer" do
     result.should =="<p>Test</p>\n<h4>Heading</h4>\n"
   end
 
+  it "handles single line returns outside of paragraphs" do
+    @transformer.transform("* One\n* Two\n* Three").should == "<ul>\n\t<li>One</li>\n\t<li>Two</li>\n\t<li>Three</li>\n</ul>\n"
+  end
+
   it "handles <construction>" do
     str = "Testing this out. <construction>Write more here later.</construction> This is awesome.\n"
     @transformer.transform(str).should == "<p>Testing this out.  This is awesome.</p>\n"

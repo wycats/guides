@@ -2,6 +2,14 @@ require "strscan"
 require "cgi"
 
 module Guides
+  module HTMLFormatter
+    include RedCloth::Formatters::HTML
+
+    def br(opts)
+      " "
+    end
+  end
+
   class TextileTransformer
     LANGUAGES = { "ruby" => "ruby", "sql" => "sql", "javascript" => "javascript",
                   "css" => "css", "plain" => "plain", "erb" => "ruby; html-script: true",
@@ -76,8 +84,7 @@ module Guides
     end
 
     def flush_textile
-      @pending_textile.gsub!(/(?<!\n)\n(?!\n)/, ' ') # Don't convert single \n to line-breaks
-      @output << RedCloth.new(@pending_textile).to_html << "\n"
+      @output << RedCloth.new(@pending_textile).to(HTMLFormatter) << "\n"
       @pending_textile = ""
     end
   end
