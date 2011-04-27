@@ -76,10 +76,9 @@ module Guides
     end
 
     def consume_construction
-      if @production
-        @string.sub!(%r{^.*</construction>}, '')
-      else
-        @string.sub!(%r{</construction>}, '')
+      match = scan_until(%r{</construction>})
+      unless @production
+        @string = match.pre_match + @string
       end
     end
 

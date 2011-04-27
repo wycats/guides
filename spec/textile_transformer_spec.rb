@@ -77,7 +77,7 @@ describe "Transformer" do
   end
 
   it "handles <construction>" do
-    str = "Testing this out. <construction>Write more here later.</construction> This is awesome.\n"
+    str = "Testing this out. <construction>Write more\nhere later.</construction> This is awesome.\n"
     @transformer.transform(str).should == "<p>Testing this out.  This is awesome.</p>\n"
     @dev_transformer.transform(str).should == "<p>Testing this out. Write more here later. This is awesome.</p>\n"
 
