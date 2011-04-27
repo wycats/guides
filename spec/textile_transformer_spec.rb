@@ -52,6 +52,11 @@ describe "Transformer" do
       %{<p>Another paragraph</p>\n}
   end
 
+  it "does not convert single line breaks to <br>" do
+    @transformer.transform("This\nhas\nbreaks.").should == "<p>This has breaks.</p>\n"
+    @transformer.transform("This\nhas\nbreaks.\n\nAnd\nparagraphs.").should == "<p>This has breaks.</p>\n<p>And paragraphs.</p>\n"
+  end
+
   it "handles <construction>" do
     str = "Testing this out. <construction>Write more here later.</construction> This is awesome.\n"
     @transformer.transform(str).should == "<p>Testing this out.  This is awesome.</p>\n"
