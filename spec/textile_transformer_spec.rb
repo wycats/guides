@@ -64,6 +64,11 @@ describe "Transformer" do
     @transformer.transform("This\nhas\nbreaks.\n\nAnd\nparagraphs.").should == "<p>This has breaks.</p>\n<p>And paragraphs.</p>\n"
   end
 
+  it "properly handles more than two line breaks" do
+    result = @transformer.transform("TIP: With \"link\":file.html.\n\n\nh4. Heading")
+    result.should == %{\n<div class="info"><p>With <a href="file.html">link</a>.</p></div>\n<h4>Heading</h4>\n}
+  end
+
   it "handles <construction>" do
     str = "Testing this out. <construction>Write more here later.</construction> This is awesome.\n"
     @transformer.transform(str).should == "<p>Testing this out.  This is awesome.</p>\n"
