@@ -52,4 +52,12 @@ describe "Transformer" do
   end
 
   it "handles <construction>"
+
+  it "handles +" do
+    @transformer.transform("This +is a+ test.").should == "<p>This <tt>is a</tt> test.</p>\n"
+    @transformer.transform("This +is+ a +test+.").should == "<p>This <tt>is</tt> a <tt>test</tt>.</p>\n"
+    @transformer.transform("This +is a test.").should == "<p>This +is a test.</p>\n"
+    @transformer.transform("This + is + a + test.").should == "<p>This + is + a + test.</p>\n"
+  end
+
 end

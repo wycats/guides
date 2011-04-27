@@ -24,7 +24,7 @@ module Guides
         notes     = NOTES.keys.map {|note| "#{note}" }.join("|")
         languages = LANGUAGES.keys.join("|")
 
-        match = scan_until /(\+(.*?)\+|<(#{languages})(?: filename=["']([^"']*)["'])?>|(#{notes}): |<(construction)>|\z)/m
+        match = scan_until /(\+(\S.*?\S?)\+|<(#{languages})(?: filename=["']([^"']*)["'])?>|(#{notes}): |<(construction)>|\z)/m
 
         @pending_textile << match.pre_match
 
