@@ -62,6 +62,7 @@ module Guides
     end
 
     def flush_textile
+      @pending_textile.gsub!(/(?<!\n)\n(?!\n)/, ' ') # Don't convert single \n to line-breaks
       @output << RedCloth.new(@pending_textile).to_html << "\n"
       @pending_textile = ""
     end
