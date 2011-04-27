@@ -67,6 +67,9 @@ describe "Transformer" do
   it "properly handles more than two line breaks" do
     result = @transformer.transform("TIP: With \"link\":file.html.\n\n\nh4. Heading")
     result.should == %{\n<div class="info"><p>With <a href="file.html">link</a>.</p></div>\n<h4>Heading</h4>\n}
+
+    result = @transformer.transform("Test\n\n\nh4. Heading")
+    result.should =="<p>Test</p>\n<h4>Heading</h4>\n"
   end
 
   it "handles <construction>" do
