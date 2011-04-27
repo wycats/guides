@@ -23,37 +23,31 @@ module Guides
 
       level_hash = ActiveSupport::OrderedHash.new
 
-      while !s.eos?
-        re = %r{^h(\d)(?:\((#.*?)\))?\s*\.\s*(.*)$}
-        s.match?(re)
-        if matched = s.matched
-          matched =~ re
-          level, idx, title = $1.to_i, $2, $3.strip
+      while s.scan_until(%r{^h(\d)(?:\((#.*?)\))?\s*\.\s*(.*)$})
+        level, idx, title = s[1].to_i, s[2], s[3].strip
 
-          if level < current_level
-            # This is needed. Go figure.
-            return level_hash
-          elsif level == current_level
-            index = counters.join(".")
-            idx ||= '#' + title_to_idx(title)
+        if level < current_level
+          # This is needed. Go figure.
+          return level_hash
+        elsif level == current_level
+          index = counters.join(".")
+          idx ||= '#' + title_to_idx(title)
 
-            raise "Parsing Fail" unless @result.sub!(matched, "h#{level}(#{idx}). #{index} #{title}")
+          raise "Parsing Fail" unless @result.sub!(s.matched, "h#{level}(#{idx}). #{index} #{title}")
 
-            key = {
-              :title => title,
-              :id => idx
-            }
-            # Recurse
-            counters << 1
-            level_hash[key] = process(s.post_match, current_level + 1, counters)
-            counters.pop
+          key = {
+            :title => title,
+            :id => idx
+          }
+          # Recurse
+          counters << 1
+          level_hash[key] = process(s.post_match, current_level + 1, counters)
+          counters.pop
 
-            # Increment the current level
-            last = counters.pop
-            counters << last + 1
-          end
+          # Increment the current level
+          last = counters.pop
+          counters << last + 1
         end
-        s.getch
       end
       level_hash
     end
