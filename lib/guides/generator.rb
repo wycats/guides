@@ -232,7 +232,7 @@ module Guides
     end
 
     def textile(body, lite_mode=false)
-      TextileTransformer.new.transform(body)
+      TextileTransformer.new(@production).transform(body)
     end
 
     def markdown(body)

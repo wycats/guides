@@ -10,6 +10,10 @@ module Guides
     NOTES =     { "CAUTION" => "warning", "IMPORTANT" => "warning", "WARNING" => "warning",
                   "INFO" => "info", "TIP" => "info", "NOTE" => "note" }
 
+    def initialize(production=false)
+      @production = production
+    end
+
     def transform(string)
       @string = string.dup
 
@@ -20,7 +24,7 @@ module Guides
         notes     = NOTES.keys.map {|note| "#{note}" }.join("|")
         languages = LANGUAGES.keys.join("|")
 
-        match = scan_until /(\+(.*?)\+|<(#{languages})(?: filename=["']([^"']*)["'])?>|(#{notes}): |\z)/m
+        match = scan_until /(\+(.*?)\+|<(#{languages})(?: filename=["']([^"']*)["'])?>|(#{notes}): |<(construction)>|\z)/m
 
         @pending_textile << match.pre_match
 
@@ -32,6 +36,9 @@ module Guides
         elsif match[5] # NOTE:
           flush_textile
           consume_note NOTES[match[5]]
+        elsif match[6] # <construction>
+          flush_textile
+          consume_construction
         end
       end
 
@@ -59,6 +66,11 @@ module Guides
       note = match.pre_match.gsub(/\n\s*/, " ")
       note = RedCloth.new(note, [:lite_mode]).to_html
       @output << %{<div class="#{css_class}"><p>#{note}</p></div>\n}
+    end
+
+    def consume_construction
+      match = scan_until %r{</construction>}
+      @output << TextileTransformer.new.transform(match.pre_match) unless @production
     end
 
     def flush_textile

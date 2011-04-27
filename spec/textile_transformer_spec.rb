@@ -50,4 +50,6 @@ describe "Transformer" do
     result.should == %{<h1>foo</h1>\n<p>Hi there.</p>\n<div class="note"><p>Some note more of <strong>the same</strong> note</p></div>\n} +
       %{<p>Another paragraph</p>\n}
   end
+
+  it "handles <construction>"
 end
