@@ -84,11 +84,11 @@ describe "guides build" do
     end
 
     it "should show under-construction articles in index" do
-      File.read("output/index.html").should =~ /<a href="article_four.html">/
+      File.read("staging/index.html").should =~ /<a href="article_four.html">/
     end
 
     it "creates under construction article" do
-      article_four = File.read("output/article_four.html")
+      article_four = File.read("staging/article_four.html")
       article_four.should =~ /<h2>Article Four<\/h2>/
     end
 

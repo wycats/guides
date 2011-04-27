@@ -23,7 +23,10 @@ module Guides
     method_option "clean", :type => :boolean
     method_option "production", :type => :boolean, :default => true, :banner => "use production mode", :aliases => "-p"
     def build
-      FileUtils.rm_rf("#{Guides.root}/output") if options[:clean]
+      if options[:clean]
+        FileUtils.rm_rf(File.join(Guides.root, options[:production] ? 'output' : 'staging'))
+      end
+
       require "guides/generator"
 
       opts = options.dup

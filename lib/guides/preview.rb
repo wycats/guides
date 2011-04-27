@@ -3,10 +3,10 @@ require "rack"
 module Guides
   class App
     def initialize(options = {})
+      @production = !!options[:production]
       @local  = Rack::File.new(local_assets)
       @source = Rack::File.new(source_assets)
-      @output = Rack::File.new(File.join(Guides.root, "output"))
-      @production = !!options[:production]
+      @output = Rack::File.new(File.join(Guides.root, @production ? "output" : "staging"))
     end
 
     def local_assets

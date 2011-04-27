@@ -70,7 +70,7 @@ module Guides
 
       @guides_dir = File.expand_path(Dir.pwd)
       @source_dir = File.join(@guides_dir, "source")
-      @output_dir = File.join(@guides_dir, "output")
+      @output_dir = File.join(@guides_dir, options[:production] ? "output" : "staging")
 
       FileUtils.mkdir_p(@output_dir)
 
