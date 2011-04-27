@@ -37,7 +37,6 @@ module Guides
           flush_textile
           consume_note NOTES[match[5]]
         elsif match[6] # <construction>
-          flush_textile
           consume_construction
         end
       end
@@ -69,8 +68,11 @@ module Guides
     end
 
     def consume_construction
-      match = scan_until %r{</construction>}
-      @output << TextileTransformer.new.transform(match.pre_match) unless @production
+      if @production
+        @string.sub!(%r{^.*</construction>}, '')
+      else
+        @string.sub!(%r{</construction>}, '')
+      end
     end
 
     def flush_textile

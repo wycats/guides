@@ -2,7 +2,8 @@ require "spec_helper"
 
 describe "Transformer" do
   before do
-    @transformer = Guides::TextileTransformer.new
+    @transformer = Guides::TextileTransformer.new(true)
+    @dev_transformer = Guides::TextileTransformer.new
   end
 
   it "handles regular textile" do
@@ -51,7 +52,17 @@ describe "Transformer" do
       %{<p>Another paragraph</p>\n}
   end
 
-  it "handles <construction>"
+  it "handles <construction>" do
+    str = "Testing this out. <construction>Write more here later.</construction> This is awesome.\n"
+    @transformer.transform(str).should == "<p>Testing this out.  This is awesome.</p>\n"
+    @dev_transformer.transform(str).should == "<p>Testing this out. Write more here later. This is awesome.</p>\n"
+
+    str = "Before\n\n<construction>Blah</construction>\n\nAfter"
+    @transformer.transform(str).should == "<p>Before</p>\n<p>After</p>\n"
+    @dev_transformer.transform(str).should == "<p>Before</p>\n<p>Blah</p>\n<p>After</p>\n"
+
+    @dev_transformer.transform("<construction>+Test+</construction>").should == "<tt>Test</tt>\n"
+  end
 
   it "handles +" do
     @transformer.transform("This +is a+ test.").should == "<p>This <tt>is a</tt> test.</p>\n"
