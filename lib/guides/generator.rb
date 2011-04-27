@@ -201,7 +201,7 @@ module Guides
         <ol class="chapters">
       INDEX
 
-      i = Indexer.new(body, warnings)
+      i = Indexer.new(body, warnings, @production)
       i.index
 
       # Set index for 2 levels

@@ -6,10 +6,11 @@ module Guides
   class Indexer
     attr_reader :body, :result, :warnings, :level_hash
 
-    def initialize(body, warnings)
+    def initialize(body, warnings, production = false)
       @body     = body
       @result   = @body.dup
       @warnings = warnings
+      @production = production
     end
 
     def index
@@ -19,6 +20,11 @@ module Guides
     private
 
     def process(string, current_level=3, counters=[1])
+      if @production
+        # Ignore anything in construction tags
+        string = string.gsub(%r{<construction>.*?</construction>}m, '')
+      end
+
       s = StringScanner.new(string)
 
       level_hash = ActiveSupport::OrderedHash.new
