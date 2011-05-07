@@ -20,7 +20,7 @@ file "Guides/local/guides/bundle" => "Gemfile" do
   sh "rm -rf bundle"
   sh "rm -rf .bundle"
   sh "rm -rf guides-pkg"
-  sh "rm Guides.pkg"
+  sh "rm -f Guides.pkg"
   Bundler.with_clean_env do
     sh "bundle --standalone --without development"
   end
