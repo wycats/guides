@@ -18,8 +18,11 @@ file "Guides/local/guides/bundle" => "Gemfile" do
   puts "Regenerating the bundle."
 
   sh "rm -rf bundle"
+  sh "rm -rf .bundle"
+  sh "rm -rf guides-pkg"
+  sh "rm Guides.pkg"
   Bundler.with_clean_env do
-    sh "bundle --standalone --local --without development"
+    sh "bundle --standalone --without development"
   end
   sh "mkdir -p Guides/local/guides"
   sh "cp -R bundle Guides/local/guides/"
