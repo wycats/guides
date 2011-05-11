@@ -4,6 +4,9 @@ $:.unshift lib unless $:.include?(lib)
 
 require 'guides/version'
 
+os = Gem::Platform.local.os
+is_mingw = (os == "mingw32")
+
 Gem::Specification.new do |s|
   s.name        = "guides"
   s.version     = Guides::VERSION
@@ -20,10 +23,14 @@ Gem::Specification.new do |s|
   s.add_dependency "actionpack", "~> 3.0.0"
   s.add_dependency "activesupport", "~> 3.0.0"
   s.add_dependency "rack", "~> 1.2.1"
-  s.add_dependency "RedCloth", "~> 4.1.1"
+  s.add_dependency "RedCloth", "~> 4.2.7"
   s.add_dependency "maruku", "~> 0.6.0"
   s.add_dependency "thor", "~> 0.14.6"
   s.add_dependency "thin", "~> 1.2.7"
+
+  if is_mingw
+    s.add_dependency 'eventmachine', '~> 1.0.0.beta'
+  end
 
   s.files              = `git ls-files`.split("\n")
   s.test_files         = `git ls-files -- {test,spec,features}/*`.split("\n")
