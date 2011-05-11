@@ -50,7 +50,7 @@ module Guides
       result = content_tag(:img, nil, :src => image, :class => 'left pic', :alt => name)
       result << content_tag(:h3, name)
       result << content_tag(:p, capture(&block))
-      content_tag(:div, result, :class => 'clearfix', :id => nick)
+      content_tag(:div, result, :class => 'author clearfix', :id => nick)
     end
 
     def code(&block)
