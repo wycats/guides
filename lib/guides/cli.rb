@@ -21,6 +21,7 @@ module Guides
     desc "build", "build the guides output"
     method_option "only", :type => :array
     method_option "clean", :type => :boolean
+    method_option "edge", :type => :boolean, :default => false
     method_option "production", :type => :boolean, :default => true, :banner => "use production mode", :aliases => "-p"
     def build
       if options[:clean]
