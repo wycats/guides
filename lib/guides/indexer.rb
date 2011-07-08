@@ -36,10 +36,11 @@ module Guides
           # This is needed. Go figure.
           return level_hash
         elsif level == current_level
-          index = counters.join(".")
+          index = counters.dup
+          index[0] = sprintf('%02d', index[0])
           idx ||= '#' + title_to_idx(title)
 
-          raise "Parsing Fail" unless @result.sub!(s.matched, "h#{level}(#{idx}). #{index} #{title}")
+          raise "Parsing Fail" unless @result.sub!(s.matched, "h#{level}(#{idx}). <span class='header_index'>#{index.join('.')}.</span> #{title}")
 
           key = {
             :title => title,
