@@ -30,21 +30,29 @@ module Guides
       level_hash = ActiveSupport::OrderedHash.new
 
       while s.scan_until(%r{^h(\d)(?:\((#.*?)\))?\s*\.\s*(.*)$})
-        level, idx, title = s[1].to_i, s[2], s[3].strip
+        level, element_id, title = s[1].to_i, s[2], s[3].strip
 
         if level < current_level
           # This is needed. Go figure.
           return level_hash
         elsif level == current_level
           index = counters.dup
-          index[0] = sprintf('%02d', index[0])
-          idx ||= '#' + title_to_idx(title)
+          if format = Guides.config['index_format']
+            index[0] = sprintf(format, index[0])
+          end
+          index = index.join('.')
 
-          raise "Parsing Fail" unless @result.sub!(s.matched, "h#{level}(#{idx}). <span class='header_index'>#{index.join('.')}.</span> #{title}")
+          element_id ||= '#' + title_to_element_id(title)
+
+          header_html = Guides.config['index_header'] || "{{index}} {{title}}"
+          values = { 'index' => index, 'title' => title }
+          header = header_html.gsub(/{{(.*?)}}/){ values[$1].to_str }
+
+          raise "Parsing Fail" unless @result.sub!(s.matched, "h#{level}(#{element_id}). #{header}")
 
           key = {
             :title => title,
-            :id => idx
+            :id => element_id
           }
           # Recurse
           counters << 1
@@ -59,12 +67,12 @@ module Guides
       level_hash
     end
 
-    def title_to_idx(title)
-      idx = title.strip.parameterize.sub(/^\d+/, '')
-      if warnings && idx.blank?
+    def title_to_element_id(title)
+      element_id = title.strip.parameterize.sub(/^\d+/, '')
+      if warnings && element_id.blank?
         puts "BLANK ID: please put an explicit ID for section #{title}, as in h5(#my-id)"
       end
-      idx
+      element_id
     end
   end
 end
