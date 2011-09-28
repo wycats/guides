@@ -48,6 +48,7 @@ module Guides
 
     desc "preview", "preview the guides as you work"
     method_option "production", :type => :boolean, :banner => "use production mode", :aliases => "-p"
+    method_option "port",       :type => :string,  :default => "9292"
     def preview
       Preview.start(options)
     end

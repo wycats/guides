@@ -56,7 +56,10 @@ module Guides
 
   class Preview < Rack::Server
     def self.start(options = {})
-      super options.merge(:host => '0.0.0.0', :Port => 9292, :server => "thin")
+      options = options.dup
+      options[:Port] = options.delete(:port) || '9292'
+      options.merge!(:host => '0.0.0.0', :server => "thin")
+      super options
     end
 
     def initialize(options = {})
