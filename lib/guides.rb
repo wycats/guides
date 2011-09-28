@@ -33,5 +33,9 @@ module Guides
         end
       end
     end
+
+    def config(reload = false)
+      meta(reload)['config'] || {}
+    end
   end
 end
