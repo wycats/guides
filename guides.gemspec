@@ -27,10 +27,7 @@ Gem::Specification.new do |s|
   s.add_dependency "maruku", "~> 0.6.0"
   s.add_dependency "thor", "~> 0.14.6"
   s.add_dependency "thin", "~> 1.2.7"
-
-  if is_mingw
-    s.add_dependency 'eventmachine', '~> 1.0.0.beta'
-  end
+  s.add_dependency 'eventmachine', '~> 1.0.0.beta.4'
 
   s.add_development_dependency 'rspec', '~> 2.0'
   s.add_development_dependency "faraday", "~> 0.5.0"
