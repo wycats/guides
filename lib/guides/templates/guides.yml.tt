@@ -9,6 +9,9 @@ authors:
     - name: Yehuda Katz
       nick: wycats
       description: Yehuda wrote the Rails guides gem.
+    - name: Peter Wagenet
+      nick: pwagenet
+      description: Peter has been a regular contributor and co-maintainer for the guides gem.
   Designers:
     - name: Jason Zimdars
       nick: jz
