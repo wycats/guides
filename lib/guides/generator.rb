@@ -141,10 +141,10 @@ module Guides
       File.open(File.join(output_dir, output_file), 'w') do |f|
         view = ActionView::Base.new(source_dir, :edge => edge, :production => @production)
         view.extend(Helpers)
+        view.render("sections")
 
         if guide =~ /\.html\.erb$/
           # Generate the special pages like the home.
-          view.render("sections")
           type = @edge ? "edge" : "normal"
           result = view.render(:layout => 'layout', :file => guide, :locals => {:guide_type => type})
         else

@@ -40,7 +40,10 @@ describe "guides build" do
     end
 
     it "creates index.html" do
-      File.read("output/index.html").should =~ /<a href="article_one.html">/
+      index = File.read("output/index.html")
+      index.should =~ /<a href="article_one.html">/
+      # Test _sections.html.erb with .html.erb templates
+      index.should =~ /This work is licensed under/
     end
 
     it "should not show under-construction articles in index" do
@@ -50,6 +53,8 @@ describe "guides build" do
     it "creates contribute.html" do
       contribute = File.read("output/contribute.html")
       contribute.should =~ /<h2>Contribute<\/h2>/
+      # Test _sections.html.erb with .textile templates
+      contribute.should =~ /This work is licensed under/
     end
 
     it "creates normal article" do
